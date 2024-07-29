@@ -93,7 +93,7 @@ def create_tasks_from_meeting(transcript_file, project_name):
     tasks = []
 
     # Compare each sentence to action definitions
-    transcriptChunks = list(chunks(transcript_text, size=500))
+    transcriptChunks = chunks(transcript_text, size=500)
     
     for transcriptChunk in transcriptChunks:
 
