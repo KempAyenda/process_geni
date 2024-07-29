@@ -26,7 +26,12 @@ def read_docx(file_path):
     for para in doc.paragraphs:
         full_text.append(para.text)
     return '\n'.join(full_text)
-
+    
+def chunks(text, size):
+    """Yield successive size chunks from text."""
+    for i in range(0, len(text), size):
+        yield text[i:i + size]
+        
 def task_list_from_llm(transcript_text):
     # Load the model once for efficiency
     model = "gpt2"
