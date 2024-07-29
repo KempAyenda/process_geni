@@ -1,0 +1,78 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-04 08:49:32.189310",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_jut1",
+  "amended_from",
+  "doctype_selector",
+  "activity_key",
+  "from_date",
+  "to_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_jut1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Logeny Process Query",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "doctype_selector",
+   "fieldtype": "Link",
+   "label": "Doctype Selector",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "activity_key",
+   "fieldtype": "Select",
+   "label": "Activity Key"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-04 08:53:40.086549",
+ "modified_by": "Administrator",
+ "module": "Process Geni",
+ "name": "Logeny Process Query",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
