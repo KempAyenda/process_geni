@@ -12,9 +12,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import transformers
 import torch
 
-
-
-
 class ProcessFromMeeting(Document):
     pass
 
@@ -97,7 +94,7 @@ def create_tasks_from_meeting(transcript_file, project_name):
     
     for transcriptChunk in transcriptChunks:
 
-        llmResponse = task_list_from_llm(transcriptChunk) # prompt + response
+        llmResponse = task_list_from_llm([transcriptChunk]) # prompt + response
         sentences = sent_tokenize(llmResponse)
         sentences_embeddings = model.encode(sentences, convert_to_tensor=True)
         
