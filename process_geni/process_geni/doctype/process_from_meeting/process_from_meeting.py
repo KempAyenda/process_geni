@@ -5,7 +5,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from nltk.tokenize import sent_tokenize
 from sentence_transformers import SentenceTransformer
 import numpy as np
-import chardet
 import docx
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -48,13 +47,8 @@ def task_list_from_llm(transcript_text):
         eos_token_id=tokenizer.eos_token_id,
     )
 
-
-    #if sequences:
-    #    generated_text = sequences[0].get('generated_text', '')
-    #else:
-    #    generated_text = ''
-
-    return sequences[0]
+    generated_text = sequences[0].get('generated_text', '') if sequences else ''
+    return generated_text
 
 @frappe.whitelist()
 def create_tasks_from_meeting(transcript_file, project_name):
@@ -79,12 +73,16 @@ def create_tasks_from_meeting(transcript_file, project_name):
     def_embeddings = model.encode(definitions, convert_to_tensor=True)
 
     tasks = []
-    transcriptChunks = chunks(transcript_text, size=500)
+    transcript_chunks = chunks(transcript_text, size=500)
 
-    for transcriptChunk in transcriptChunks:
-        llmResponse = task_list_from_llm(transcriptChunk[0])
-        if llmResponse:
-            sentences = sent_tokenize(llmResponse)
+    for transcript_chunk in transcript_chunks:
+        llm_response = task_list_from_llm(transcript_chunk)
+        
+        if isinstance(llm_response, dict):
+            llm_response = llm_response.get('generated_text', '')
+        
+        if llm_response and isinstance(llm_response, str):
+            sentences = sent_tokenize(llm_response)
             sentences_embeddings = model.encode(sentences, convert_to_tensor=True)
 
             for sentence in sentences:
@@ -93,7 +91,7 @@ def create_tasks_from_meeting(transcript_file, project_name):
                 max_similarity_idx = similarities.argmax()
                 max_similarity = similarities[max_similarity_idx]
 
-                if max_similarity > 0.7:
+                if max_similarity > 0.1:
                     action = actions[max_similarity_idx]
                     task_description = sentence.strip()
                     if action:
@@ -103,21 +101,15 @@ def create_tasks_from_meeting(transcript_file, project_name):
                             "project": project_name
                         })
 
-            task.append({
-		"subject": "test",
-		"description": llmResponse,
-		"projec": project_name
-		})		
-
-            for task in tasks:
-               task_doc = frappe.get_doc({
-               "doctype": "Task",
-               "subject": task["subject"],
-               "description": task["description"],
-               "project": task["project"]
-               })
-               task_doc.insert()
-               frappe.db.commit()
+    if tasks:
+        for task in tasks:
+            task_doc = frappe.get_doc({
+                "doctype": "Task",
+                "subject": task["subject"],
+                "description": task["description"],
+                "project": task["project"]
+            })
+            task_doc.insert()
+            frappe.db.commit()
 
     return f"Created {len(tasks)} tasks for project {project_name}"
-
