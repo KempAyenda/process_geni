@@ -21,7 +21,7 @@ doctype_js = {
 #    "Google Drive Integration": "process_geni/doctype/google_drive_integration/google_drive_integration.js"
 }
 # Define the whitelist method for OAuth callback
-override_whitelisted_methods = {
-    "frappe.integrations.doctype.google_drive.google_drive.authorize_access": "process_geni.doctype.google_drive_integration.google_drive_integration.get_oauth_url"
+#override_whitelisted_methods = {
+#    "frappe.integrations.doctype.google_drive.google_drive.authorize_access": "process_geni.doctype.google_drive_integration.google_drive_integration.get_oauth_url"
 #    "process_geni.doctype.google_drive_integration.google_drive_integration.google_drive_callback": "process_geni.doctype.google_drive_integration.google_drive_integration.google_drive_callback"
-}
+#}
