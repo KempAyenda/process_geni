@@ -48,12 +48,13 @@ def task_list_from_llm(transcript_text):
         eos_token_id=tokenizer.eos_token_id,
     )
 
-    if sequences:
-        generated_text = sequences[0].get('generated_text', '')
-    else:
-        generated_text = ''
 
-    return generated_text
+    #if sequences:
+    #    generated_text = sequences[0].get('generated_text', '')
+    #else:
+    #    generated_text = ''
+
+    return sequences[0]
 
 @frappe.whitelist()
 def create_tasks_from_meeting(transcript_file, project_name):
@@ -102,7 +103,13 @@ def create_tasks_from_meeting(transcript_file, project_name):
                             "project": project_name
                         })
 
-           for task in tasks:
+            task.append({
+		"subject": "test",
+		"description": llmResponse,
+		"projec": project_name
+		})		
+
+            for task in tasks:
                task_doc = frappe.get_doc({
                "doctype": "Task",
                "subject": task["subject"],
