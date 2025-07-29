@@ -9,6 +9,14 @@ readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     # "frappe~=15.0.0" # Installed and managed by bench.
+    "scikit-learn",
+    "nltk",
+    "sentence-transformers",
+    "transformers",
+    "torch",
+    "pm4py",
+    "pandas",
+    "python-docx",
 ]
 
 [build-system]
